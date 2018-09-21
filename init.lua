@@ -16,7 +16,7 @@ Game rebalance: Duplicates item pickups,quest rewards,etc/disallows dropping ite
 transmog popup for both people]]
 tags = {'multiplayer'}
 
-overload = true
-superload = false
-data = true
-hooks = true
+overload = false
+superload = true
+data = false
+hooks = false
