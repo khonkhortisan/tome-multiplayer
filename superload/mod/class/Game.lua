@@ -142,8 +142,8 @@ function _M:newGame()
 				self:registerDialog(d)
 				if __module_extra_info.no_birth_popup then d.key:triggerVirtual("EXIT") end
 				
-				
-				
+				----------------------------------------------------------------------
+				--start over for player 2
 				if self.player.title == "Multiplayer" then
 					Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
 				end
@@ -157,8 +157,14 @@ function _M:newGame()
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 				})
 				self.party:setPlayer(player)
-
 				
+				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
+					--
+				end, quickbirth, 800, 600)
+				
+				--perplayer character creation dialog
+				self:registerDialog(birth)
+				----------------------------------------------------------------------
 				
 			end
 
