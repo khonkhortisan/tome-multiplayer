@@ -1,5 +1,7 @@
 local Dialog = require "engine.ui.Dialog"
 local Button = require "engine.ui.Button"
+--local Party = require "mod.class.Party"
+--local Player = require "mod.class.Player"
 
 local _M = loadPrevious(...)
 
@@ -28,7 +30,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
   
   
   -- Do stuff "after" loading the original file
-  Dialog:yesnoPopup("Did it work?", "Superload attempted.", true, "No", "Yes I'm sure")
+  --Dialog:yesnoPopup("Did it work?", "Superload attempted.", true, "No", "Yes I'm sure")
   --
   -- return whatever the original function would have returned
   return retval
@@ -46,12 +48,42 @@ function _M:loadUI(_array)
 	-- replace/empty values?
 	
 	--get player info,
+	--from Game.lua
+	--self.actor
+	--self.party.members
+	--self.party = Party.new{}
+	--[[
+	local player = Player.new{name=self.player_name, game_ender=true}
+	self.party:addMember(player, {
+		control="full",
+		type="player",
+		title="Main character2",
+		main=true,
+		orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
+	})
+	self.party:setPlayer(player)
+	
+	local player = Player.new{name=self.player_name, game_ender=true}
+	self.party:addMember(player, {
+		control="full",
+		type="player",
+		title="Main character3",
+		main=true,
+		orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
+	})
+	self.party:setPlayer(player)
+	]]
+	
+	--a way to add a return value
+	--self.party.player.title = "Multiplayer"
+	self:atEnd("created")
+	
 	--make character,
 	--add to party
 	
 	--don't open this dialog again, once should serve purposes.
 	--Assuming the list of players can be stored in a {party} array.
-	base_init(self, title, actor, order, at_end, quickbirth, w, h)
+	--base_init(self, title, actor, order, at_end, quickbirth, w, h)
 	
 	--add Previous Player as inverted hide state to Next Player:
 	--  moves last player in party back into dialog
