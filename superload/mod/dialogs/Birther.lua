@@ -3,6 +3,7 @@ local Button = require "engine.ui.Button"
 
 local _M = loadPrevious(...)
 
+--mess with base dialog
 local base_init = _M.init
 function _M:init(title, actor, order, at_end, quickbirth, w, h)
   -- Do stuff "before" loading the original file
@@ -33,14 +34,35 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
   return retval
 end
 
+--add button for multiplayer
 local base_loadUI = _M.loadUI
 function _M:loadUI(_array)
-  self.c_add_player = Button.new{text="Next Player", fct=function() base_init(self, title, actor, order, at_end, quickbirth, w, h) end}
+  --collect player values, make new dialog or edit old one?
+  --change playername to playername2
+  self.c_add_player = Button.new{text="Next Player", fct=function()
+	
+	--actually do something here toward multiplayer
+	base_init(self, title, actor, order, at_end, quickbirth, w, h)
+	
+	
+  end}
+  --~~made hide state match Play! hide state~~
+  
   --should probably check whether this is actually the character creation dialog
   --  before assuming there's a cancel button
-  table.insert(_array,{right=self.c_cancel, bottom=0, ui=self.c_add_player})
+  table.insert(_array,{right=self.c_cancel, bottom=0, ui=self.c_add_player, hidden=true})
   --self:setupUI()
   base_loadUI(self, _array)
+end
+
+--match Next Player button hide state to Play! button
+--aka fill out first player before moving on to second
+local base_toggleDisplay = _M.toggleDisplay
+function _M:toggleDisplay(button, ok)
+  base_toggleDisplay(self, button, ok)
+  if button.text=="     Play!     " then
+	base_toggleDisplay(self, self.c_add_player, ok)
+  end
 end
 
 
