@@ -76,6 +76,7 @@ function _M:loadUI(_array)
 	
 	--a way to add a return value
 	--self.party.player.title = "Multiplayer"
+	self.actor.title = "Multiplayer"
 	self:atEnd("created")
 	
 	--make character,
