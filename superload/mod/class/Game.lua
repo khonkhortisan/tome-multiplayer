@@ -4,6 +4,7 @@ local GameState = require "mod.class.GameState"
 local Birther = require "mod.dialogs.Birther"
 local Calendar = require "engine.Calendar"
 local Map = require "engine.Map"
+local Dialog = require "engine.ui.Dialog"
 
 local _M = loadPrevious(...)
 -- [[
@@ -14,6 +15,10 @@ local base_newGame = _M.newGame
 function _M:newGame()
 --init
 	self.party = Party.new{}
+--init
+	-- Create the entity to store various game state things
+	self.state = GameState.new{}
+	
 --perplayer
 	local player = Player.new{name=self.player_name, game_ender=true}
 	self.party:addMember(player, {
@@ -24,9 +29,8 @@ function _M:newGame()
 		orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 	})
 	self.party:setPlayer(player)
---init
-	-- Create the entity to store various game state things
-	self.state = GameState.new{}
+	
+	
 --idk, uses online
 	local birth_done = function()
 --postplayer
@@ -57,6 +61,8 @@ function _M:newGame()
 		self.player:getUUID()
 		self:updateCurrentChar()
 	end
+	
+	
 --init
 	if not config.settings.tome.tactical_mode_set then
 		self.always_target = true
@@ -135,6 +141,25 @@ function _M:newGame()
 				end, true)
 				self:registerDialog(d)
 				if __module_extra_info.no_birth_popup then d.key:triggerVirtual("EXIT") end
+				
+				
+				
+				if self.player.title == "Multiplayer" then
+					Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
+				end
+--perplayer
+				local player = Player.new{name=self.player_name, game_ender=true}
+				self.party:addMember(player, {
+					control="full",
+					type="player",
+					title="Main character",
+					main=true,
+					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
+				})
+				self.party:setPlayer(player)
+
+				
+				
 			end
 
 			if self.player.no_birth_levelup or __module_extra_info.no_birth_popup then birthend()
@@ -174,7 +199,9 @@ function _M:newGame()
 			self:triggerHook{"ToME:birthDone"}
 		end
 	end, quickbirth, 800, 600)
---perplayer
+	--end birth function
+	
+--perplayer character creation dialog
 	self:registerDialog(birth)
 end
 

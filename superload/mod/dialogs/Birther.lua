@@ -1,4 +1,4 @@
-local Dialog = require "engine.ui.Dialog"
+--local Dialog = require "engine.ui.Dialog"
 local Button = require "engine.ui.Button"
 --local Party = require "mod.class.Party"
 --local Player = require "mod.class.Player"
