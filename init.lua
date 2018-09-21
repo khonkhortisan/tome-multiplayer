@@ -12,7 +12,7 @@ homepage = 'https://github.com/khonkhortisan'
 description = [[Todo:
 Adds a second character with placeholder AI that on its turn gives control to the player and takes over the first character
 New game menu allowing different classes/races
-Game rebalance: Duplicates item pickups,quest rewards,etc/disallows dropping items
+Game rebalance (optional): Duplicates item pickups,quest rewards,etc/disallows dropping items
 transmog popup for both people]]
 tags = {'multiplayer'}
 

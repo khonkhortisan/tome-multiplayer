@@ -42,15 +42,28 @@ function _M:loadUI(_array)
   self.c_add_player = Button.new{text="Next Player", fct=function()
 	
 	--actually do something here toward multiplayer
+	--add placeholder first character to party, let party dialog open on its own,
+	-- replace/empty values?
+	
+	--get player info,
+	--make character,
+	--add to party
+	
+	--don't open this dialog again, once should serve purposes.
+	--Assuming the list of players can be stored in a {party} array.
 	base_init(self, title, actor, order, at_end, quickbirth, w, h)
 	
-	
+	--add Previous Player as inverted hide state to Next Player:
+	--  moves last player in party back into dialog
   end}
   --~~made hide state match Play! hide state~~
+  --self.c_rem_player = Button.new{text="Previous Player", fct=function() end}
   
   --should probably check whether this is actually the character creation dialog
   --  before assuming there's a cancel button
   table.insert(_array,{right=self.c_cancel, bottom=0, ui=self.c_add_player, hidden=true})
+  --table.insert(_array,{right=self.c_add_player, bottom=0, ui=self.c_rem_player, hidden=true})
+  
   --self:setupUI()
   base_loadUI(self, _array)
 end
@@ -62,6 +75,7 @@ function _M:toggleDisplay(button, ok)
   base_toggleDisplay(self, button, ok)
   if button.text=="     Play!     " then
 	base_toggleDisplay(self, self.c_add_player, ok)
+	--self.c_add_player.text=(ok and "Next" or "Previous").." Player"
   end
 end
 
