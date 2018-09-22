@@ -63,8 +63,9 @@ if config.settings.multiplayer_num <= 1 then
 		self:rebuildCalendar()
 end
 
-		-- Force the hotkeys to be sorted.
+		-- Force the hotkeys to be sorted
 		self.player:sortHotkeys()
+		
 --perplayer?
 		-- Register the character online if possible
 		self.player:getUUID()
@@ -88,6 +89,7 @@ end
 	self:triggerHook{"ToME:extraBirthOptions", options = self.extra_birth_option_defs}
 --perplayer
 	birtherfunction = function(loaded)
+	--if config.settings.multiplayer_num == 2 then return end
 --perplayer
 		if not loaded then
 --once
@@ -124,6 +126,7 @@ end
 			if self.player.__game_difficulty then self:setupDifficulty(self.player.__game_difficulty) end
 			self:setupPermadeath(self.player)
 --once
+--this is not the code that moves to starting zone?
 if config.settings.multiplayer_num <= 1 then
 			--self:changeLevel(1, "test")
 			self:changeLevel(self.player.starting_level or 1, self.player.starting_zone, {force_down=self.player.starting_level_force_down, direct_switch=true})
@@ -173,7 +176,18 @@ if config.settings.multiplayer_num == 1 then
 				--	Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
 				--end
 --perplayer
+
+				
+				local norgan = self.zone:makeEntityByName(self.level, "actor", "NORGAN")
+				self.zone:addEntity(self.level, norgan, "actor", x, y)
+
+				self.party:addMember(norgan, {
+					ai="player_party_member", type="squadmate", title="Norgan", no_party_ai=true,
+					})
+--[[
 				self.player.ai = "player_party_member"
+				self.player.no_party_ai = true
+				local player1 = self.player
 				local player = Player.new{name=self.player_name, game_ender=true}
 				self.party:addMember(player, {
 					control="full",
@@ -182,6 +196,7 @@ if config.settings.multiplayer_num == 1 then
 					title="Main character",
 					main=true,
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
+					no_party_ai=true,
 				})
 				self.party:setPlayer(player)
 				
@@ -189,6 +204,7 @@ if config.settings.multiplayer_num == 1 then
 				
 				--perplayer character creation dialog
 				self:registerDialog(birth)
+				--]]
 end
 				----------------------------------------------------------------------
 
