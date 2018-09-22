@@ -173,12 +173,13 @@ if config.settings.multiplayer_num == 1 then
 				--	Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
 				--end
 --perplayer
-
+				self.player.ai = "player_party_member"
 				local player = Player.new{name=self.player_name, game_ender=true}
 				self.party:addMember(player, {
 					control="full",
 					type="player",
-					title="Multiplayer",
+					ai="player_party_member",
+					title="Main character",
 					main=true,
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 				})
