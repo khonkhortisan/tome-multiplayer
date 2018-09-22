@@ -29,7 +29,10 @@ function _M:newGame()
 		orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 	})
 	self.party:setPlayer(player)
-	
+	config.settings.multiplayer_num = 0
+	--0 player 1 of 1, singleplayer
+	--1 player 1 of multiple, multiplayer
+	--2 player 2 of multiple, multiplayer
 	
 --idk, uses online
 	local birth_done = function()
@@ -44,10 +47,12 @@ function _M:newGame()
 			end
 		end
 --createworld, once", fine if duplicate?
+if config.settings.multiplayer_num <= 1 or true then
 		for i = 1, 50 do
 			local o = self.state:generateRandart{add_pool=true}
 			self.zone.object_list[#self.zone.object_list+1] = o
 		end
+end
 --perplayer
 		if config.settings.cheat then self.player.__cheated = true end
 
@@ -78,11 +83,13 @@ function _M:newGame()
 	self.extra_birth_option_defs = {}
 	self:triggerHook{"ToME:extraBirthOptions", options = self.extra_birth_option_defs}
 --perplayer
-	local birtherfunction = function(loaded)
+	birtherfunction = function(loaded)
 --perplayer
 		if not loaded then
 --once
+if config.settings.multiplayer_num <= 1 or true then
 			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+end
 --perplayer
 			self.player:check("make_tile")
 			self.player.make_tile = nil
@@ -97,6 +104,7 @@ function _M:newGame()
 				end
 			end
 --once.? Place subsequent players by party mechanic
+if config.settings.multiplayer_num <= 1 or true then
 			-- Configure & create the worldmap
 			self.player.last_wilderness = self.player.default_wilderness[3] or "wilderness"
 			game:onLevelLoad(self.player.last_wilderness.."-1", function(zone, level)
@@ -106,20 +114,25 @@ function _M:newGame()
 					game.player.wild_x, game.player.wild_y = spot.x, spot.y
 				end
 			end)
+end
 --perplayer
 			-- Generate
 			if self.player.__game_difficulty then self:setupDifficulty(self.player.__game_difficulty) end
 			self:setupPermadeath(self.player)
 --once
+if config.settings.multiplayer_num <= 1 or true then
 			--self:changeLevel(1, "test")
 			self:changeLevel(self.player.starting_level or 1, self.player.starting_zone, {force_down=self.player.starting_level_force_down, direct_switch=true})
+end
 --perplayer
 			print("[PLAYER BIRTH] resolve...")
 			self.player:resolve()
 			self.player:resolve(nil, true)
 			self.player.energy.value = self.energy_to_act
 --once
+if config.settings.multiplayer_num <= 1 or true then
 			Map:setViewerFaction(self.player.faction)
+end
 --perplayer
 			self.player:updateModdableTile()
 
@@ -150,6 +163,9 @@ function _M:newGame()
 				
 				----------------------------------------------------------------------
 --firstplayer
+if config.settings.multiplayer_num == 1 then
+--if not player.title == "Multiplayer" then
+--if true then
 				--start over for player 2
 				if self.player.title == "Multiplayer" then
 					Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
@@ -159,7 +175,7 @@ function _M:newGame()
 				self.party:addMember(player, {
 					control="full",
 					type="player",
-					title="Main character",
+					title="Multiplayer",
 					main=true,
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 				})
@@ -168,7 +184,8 @@ function _M:newGame()
 				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 				
 				--perplayer character creation dialog
-				--self:registerDialog(birth)
+				self:registerDialog(birth)
+end
 				----------------------------------------------------------------------
 				
 			end
@@ -210,7 +227,8 @@ function _M:newGame()
 			self:triggerHook{"ToME:birthDone"}
 		end
 	end
-	local birth; birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
+	--local birth; 
+	birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 	--end birth function
 	
 --perplayer character creation dialog
