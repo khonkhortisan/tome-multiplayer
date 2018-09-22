@@ -16,7 +16,7 @@ Game rebalance (optional): Duplicates item pickups,quest rewards,etc/disallows d
 transmog popup for both people]]
 tags = {'multiplayer'}
 
-overload = false
+overload = true
 superload = true
 data = false
 hooks = false
