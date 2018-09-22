@@ -112,13 +112,14 @@ function _M:toggleDisplay(button, ok)
 	--self.c_add_player.text=(ok and "Next" or "Previous").." Player"
   end
   
-  self.c_ok.fct=function() self:atEnd("created") 
+  base_playfunction = self.c_ok.fct
+  self.c_ok.fct=function()
 		--if multiplayer
 		if config.settings.multiplayer_num > 0 then
 			--add another player
 			config.settings.multiplayer_num = config.settings.multiplayer_num + 1
 		end
-		self:atEnd("created")
+		base_playfunction()
 	end
 end
 
