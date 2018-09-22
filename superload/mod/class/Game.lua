@@ -15,11 +15,8 @@ local base_newGame = _M.newGame
 function _M:newGame()
 --init
 	self.party = Party.new{}
---init
-	-- Create the entity to store various game state things
-	self.state = GameState.new{}
 	
---perplayer
+--perplayer, player1's instance here
 	local player = Player.new{name=self.player_name, game_ender=true}
 	self.party:addMember(player, {
 		control="full",
@@ -31,8 +28,13 @@ function _M:newGame()
 	self.party:setPlayer(player)
 	config.settings.multiplayer_num = 0
 	--0 player 1 of 1, singleplayer
-	--1 player 1 of multiple, multiplayer
-	--2 player 2 of multiple, multiplayer
+	--1 player 1 of >1, multiplayer
+	--2 player 2 of >2, multiplayer
+	-- -1 or 9999? player last of >1, multiplayer
+	
+--init
+	-- Create the entity to store various game state things
+	self.state = GameState.new{}
 	
 --idk, uses online
 	local birth_done = function()
@@ -47,7 +49,7 @@ function _M:newGame()
 			end
 		end
 --createworld, once", fine if duplicate?
-if config.settings.multiplayer_num <= 1 or true then
+if config.settings.multiplayer_num <= 1 then
 		for i = 1, 50 do
 			local o = self.state:generateRandart{add_pool=true}
 			self.zone.object_list[#self.zone.object_list+1] = o
@@ -57,7 +59,9 @@ end
 		if config.settings.cheat then self.player.__cheated = true end
 
 		self.player:recomputeGlobalSpeed()
+if config.settings.multiplayer_num <= 1 then
 		self:rebuildCalendar()
+end
 
 		-- Force the hotkeys to be sorted.
 		self.player:sortHotkeys()
@@ -87,7 +91,7 @@ end
 --perplayer
 		if not loaded then
 --once
-if config.settings.multiplayer_num <= 1 or true then
+if config.settings.multiplayer_num <= 1 then
 			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
 end
 --perplayer
@@ -104,7 +108,7 @@ end
 				end
 			end
 --once.? Place subsequent players by party mechanic
-if config.settings.multiplayer_num <= 1 or true then
+if config.settings.multiplayer_num <= 1 then
 			-- Configure & create the worldmap
 			self.player.last_wilderness = self.player.default_wilderness[3] or "wilderness"
 			game:onLevelLoad(self.player.last_wilderness.."-1", function(zone, level)
@@ -120,7 +124,7 @@ end
 			if self.player.__game_difficulty then self:setupDifficulty(self.player.__game_difficulty) end
 			self:setupPermadeath(self.player)
 --once
-if config.settings.multiplayer_num <= 1 or true then
+if config.settings.multiplayer_num <= 1 then
 			--self:changeLevel(1, "test")
 			self:changeLevel(self.player.starting_level or 1, self.player.starting_zone, {force_down=self.player.starting_level_force_down, direct_switch=true})
 end
@@ -130,7 +134,7 @@ end
 			self.player:resolve(nil, true)
 			self.player.energy.value = self.energy_to_act
 --once
-if config.settings.multiplayer_num <= 1 or true then
+if config.settings.multiplayer_num <= 1 then
 			Map:setViewerFaction(self.player.faction)
 end
 --perplayer
@@ -141,6 +145,7 @@ end
 			local birthend = function()
 --perplayer message
 				local d = require("engine.dialogs.ShowText").new("Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=self.player.name}, nil, nil, function()
+--runs after welcome dialog is closed?
 					self.player:resetToFull()
 					self.player:registerCharacterPlayed()
 					self.player:onBirth(birth)
@@ -157,20 +162,18 @@ end
 					self:triggerHook{"ToME:birthDone"}
 
 					if __module_extra_info.birth_done_script then loadstring(__module_extra_info.birth_done_script)() end
-				end, true)
-				self:registerDialog(d)
-				if __module_extra_info.no_birth_popup then d.key:triggerVirtual("EXIT") end
-				
-				----------------------------------------------------------------------
+					
+					----------------------------------------------------------------------
 --firstplayer
 if config.settings.multiplayer_num == 1 then
 --if not player.title == "Multiplayer" then
 --if true then
 				--start over for player 2
-				if self.player.title == "Multiplayer" then
-					Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
-				end
+				--if self.player.title == "Multiplayer" then
+				--	Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
+				--end
 --perplayer
+
 				local player = Player.new{name=self.player_name, game_ender=true}
 				self.party:addMember(player, {
 					control="full",
@@ -187,7 +190,11 @@ if config.settings.multiplayer_num == 1 then
 				self:registerDialog(birth)
 end
 				----------------------------------------------------------------------
-				
+
+				end, true)
+				self:registerDialog(d)
+				if __module_extra_info.no_birth_popup then d.key:triggerVirtual("EXIT") end
+								
 			end
 
 			if self.player.no_birth_levelup or __module_extra_info.no_birth_popup then birthend()
