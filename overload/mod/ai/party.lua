@@ -37,21 +37,21 @@ return _M
 
 newAI("party_member", function(self)
 	--game.player.ai = "party_member"
-	currentplayer = game:getPlayer(true)
-	currentplayer.control="full"
-	currentplayer.orders = {target=true, anchor=true, behavior=true, leash=true, talents=true}
-	currentplayer.type="player"
-	currentplayer.title="Main character"
-	currentplayer.main=true
-	self.ai = "party_member"
-	self.control="full"
-	self.orders = {target=true, anchor=true, behavior=true, leash=true, talents=true}
-	self.type="player"
-	self.title="Main character"
-	self.main=true
-	self.ai = ""
-	game.party:setPlayer(self)
-	currentplayer.ai = "party_member"
+	--currentplayer = game:getPlayer(true)
+	--currentplayer.control="full"
+	--currentplayer.orders = {target=true, anchor=true, behavior=true, leash=true, talents=true}
+	--currentplayer.type="player"
+	--currentplayer.title="Main character"
+	--currentplayer.main=true
+	--self.ai = "party_member"
+	--self.control="full"
+	--self.orders = {target=true, anchor=true, behavior=true, leash=true, talents=true}
+	--self.type="player"
+	--self.title="Main character"
+	--self.main=true
+	--self.ai = ""
+	game.party:setPlayer(self) --forcing handoff takes a turn?
+	--currentplayer.ai = "party_member"
 	return
 	--[[
 	local anchor = self.ai_state.tactic_leash_anchor
