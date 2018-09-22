@@ -43,7 +43,7 @@ function _M:newGame()
 				self.player:addObject(self.player:getInven("INVEN"), chest)
 			end
 		end
---createworld
+--createworld, once", fine if duplicate?
 		for i = 1, 50 do
 			local o = self.state:generateRandart{add_pool=true}
 			self.zone.object_list[#self.zone.object_list+1] = o
@@ -78,10 +78,12 @@ function _M:newGame()
 	self.extra_birth_option_defs = {}
 	self:triggerHook{"ToME:extraBirthOptions", options = self.extra_birth_option_defs}
 --perplayer
-	local birth; birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
+	local birtherfunction = function(loaded)
 --perplayer
 		if not loaded then
+--once
 			self.calendar = Calendar.new("/data/calendar_"..(self.player.calendar or "allied")..".lua", "Today is the %s %s of the %s year of the Age of Ascendancy of Maj'Eyal.\nThe time is %02d:%02d.", 122, 167, 11)
+--perplayer
 			self.player:check("make_tile")
 			self.player.make_tile = nil
 			self.player:check("before_starting_zone")
@@ -104,18 +106,21 @@ function _M:newGame()
 					game.player.wild_x, game.player.wild_y = spot.x, spot.y
 				end
 			end)
-
+--perplayer
 			-- Generate
 			if self.player.__game_difficulty then self:setupDifficulty(self.player.__game_difficulty) end
 			self:setupPermadeath(self.player)
+--once
 			--self:changeLevel(1, "test")
 			self:changeLevel(self.player.starting_level or 1, self.player.starting_zone, {force_down=self.player.starting_level_force_down, direct_switch=true})
-
+--perplayer
 			print("[PLAYER BIRTH] resolve...")
 			self.player:resolve()
 			self.player:resolve(nil, true)
 			self.player.energy.value = self.energy_to_act
+--once
 			Map:setViewerFaction(self.player.faction)
+--perplayer
 			self.player:updateModdableTile()
 
 			self.paused = true
@@ -128,10 +133,11 @@ function _M:newGame()
 					self.player:onBirth(birth)
 					-- For quickbirth
 					savefile_pipe:push(self.player.name, "entity", self.party, "engine.CharacterVaultSave")
-
+--perplayer?
 					self.player:grantQuest(self.player.starting_quest)
+--lastplayer?
 					self.creating_player = false
-
+--perplayer
 					birth_done()
 					self.player:check("on_birth_done")
 					self:setTacticalMode(self.always_target)
@@ -143,6 +149,7 @@ function _M:newGame()
 				if __module_extra_info.no_birth_popup then d.key:triggerVirtual("EXIT") end
 				
 				----------------------------------------------------------------------
+--firstplayer
 				--start over for player 2
 				if self.player.title == "Multiplayer" then
 					Dialog:yesnoPopup("Did it work?", "Return value found.", true, "No", "Yes I'm sure")
@@ -158,12 +165,10 @@ function _M:newGame()
 				})
 				self.party:setPlayer(player)
 				
-				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, function(loaded)
-					--
-				end, quickbirth, 800, 600)
+				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 				
 				--perplayer character creation dialog
-				self:registerDialog(birth)
+				--self:registerDialog(birth)
 				----------------------------------------------------------------------
 				
 			end
@@ -204,7 +209,8 @@ function _M:newGame()
 			self:setTacticalMode(self.always_target)
 			self:triggerHook{"ToME:birthDone"}
 		end
-	end, quickbirth, 800, 600)
+	end
+	local birth; birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 	--end birth function
 	
 --perplayer character creation dialog
