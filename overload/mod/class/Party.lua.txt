@@ -257,7 +257,7 @@ function _M:setPlayer(actor, bypass)
 		actor.replacedWith = nil
 		actor.uid = uid
 		__uids[uid] = actor
-		actor.changed = true
+		--actor.changed = true
 	end
 
 	-- Setup as the curent player
@@ -270,7 +270,8 @@ function _M:setPlayer(actor, bypass)
 	if game.target then game.target.source_actor = actor end
 	if game.level and actor.x and actor.y then game.level.map:moveViewSurround(actor.x, actor.y, 8, 8) end
 	actor._move_others = actor.move_others
-	actor.move_others = true
+	--actor.move_others = true
+	actor.move_others = false
 
 	-- Change back the old actor to a normal actor
 	if oldp and oldp ~= actor then
@@ -286,7 +287,7 @@ function _M:setPlayer(actor, bypass)
 		end
 
 		actor.move_others = actor._move_others
-		oldp.changed = true
+		--oldp.changed = true
 		oldp.player = nil
 		--if game.level and oldp.x and oldp.y then oldp:move(oldp.x, oldp.y, true) end
 	end

@@ -36,6 +36,7 @@ return _M
 -- darkgod@te4.org
 
 newAI("party_member", function(self)
+if false then
 	--game.player.ai = "party_member"
 	--currentplayer = game:getPlayer(true)
 	--currentplayer.control="full"
@@ -53,7 +54,8 @@ newAI("party_member", function(self)
 	game.party:setPlayer(self) --forcing handoff takes a turn?
 	--currentplayer.ai = "party_member"
 	return
-	--[[
+else
+	
 	local anchor = self.ai_state.tactic_leash_anchor
 
 	-- Stay close to the leash anchor
@@ -76,7 +78,8 @@ newAI("party_member", function(self)
 		return self:runAI("move_anchor")
 	else
 		return ret
-	end--]]
+	end
+end
 end)
 
 newAI("move_anchor", function(self)

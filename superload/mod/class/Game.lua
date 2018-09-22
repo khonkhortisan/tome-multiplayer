@@ -177,26 +177,27 @@ if config.settings.multiplayer_num == 1 then
 				--end
 --perplayer
 
-				
+				--[[
 				local norgan = self.zone:makeEntityByName(self.level, "actor", "NORGAN")
 				self.zone:addEntity(self.level, norgan, "actor", x, y)
 
 				self.party:addMember(norgan, {
 					ai="player_party_member", type="squadmate", title="Norgan", no_party_ai=true,
 					})
---[[
-				self.player.ai = "player_party_member"
-				self.player.no_party_ai = true
-				local player1 = self.player
+					--]]
+--[
+				--self.player.ai = "player_party_member"
+				--self.player.no_party_ai = true
+				--local player1 = self.player
 				local player = Player.new{name=self.player_name, game_ender=true}
 				self.party:addMember(player, {
 					control="full",
 					type="player",
-					ai="player_party_member",
+					--ai="player_party_member",
 					title="Main character",
 					main=true,
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
-					no_party_ai=true,
+					--no_party_ai=true,
 				})
 				self.party:setPlayer(player)
 				
