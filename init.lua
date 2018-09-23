@@ -13,6 +13,8 @@ description = [[Adds a second character
 New game menu allowing different classes/races (after starting level)
 ~~placeholder~~ AI that on its turn gives control to the player and takes over the first character
 
+Game Options→Tactical Overlay:Combined Big recommended.
+
 Todo:
 Game rebalance (optional):
 	duplicates starting items (transmog, rod of recall)
@@ -24,7 +26,8 @@ Game rebalance (optional):
 	disallows dropping items?
 transmog popup for both people
 bring both back to life after eidolon
-don't interrupt autoexplore/run (let it stack)]]
+don't interrupt autoexplore/run (let it stack)
+fix player1 living player2 undead error]]
 tags = {'multiplayer'}
 
 overload = true

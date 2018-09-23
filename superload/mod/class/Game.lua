@@ -26,7 +26,7 @@ function _M:newGame()
 		orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 	})
 	self.party:setPlayer(player)
-	config.settings.multiplayer_num = 0
+	config.settings.multiplayer_num = 1
 	--0 player 1 of 1, singleplayer
 	--1 player 1 of >1, multiplayer
 	--2 player 2 of >2, multiplayer
@@ -168,9 +168,10 @@ end
 					
 					----------------------------------------------------------------------
 --firstplayer
-if config.settings.multiplayer_num == 1 then
-Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier.", function(ret)
+--if config.settings.multiplayer_num == 1 then
+Dialog:yesnoPopup("Multiplayer", "Ready Player "..config.settings.multiplayer_num+1, function(ret)
 				if not ret then
+				config.settings.multiplayer_num = config.settings.multiplayer_num + 1
 --if not player.title == "Multiplayer" then
 --if true then
 				--start over for player 2
@@ -253,7 +254,7 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 				--]]
 end
 			end, "No", "Yes") --really add player dialog
-end
+--end
 				----------------------------------------------------------------------
 
 				end, true)
