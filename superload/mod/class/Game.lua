@@ -203,7 +203,8 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 					control="full",
 					type="player",
 					--ai="player_party_member",
-					title="Secondary main character",
+					--title="Secondary main character",
+					title="Main character", --currently using this for ai switching
 					main=false, --inferior to player1?
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 					--no_party_ai=true,

@@ -36,8 +36,10 @@ return _M
 -- darkgod@te4.org
 
 newAI("party_member", function(self)
---if self.is_a_multiplayer_player then
-if true then
+--stop controlling golems and letting Norgan act multiple times
+if game.party.members[self].title == "Main character" then
+--game.party means enemies don't also form parties?
+--if true then
 	--game.player.ai = "party_member"
 	--currentplayer = game:getPlayer(true)
 	--currentplayer.control="full"
