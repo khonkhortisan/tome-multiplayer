@@ -206,7 +206,7 @@ Dialog:yesnoPopup("Multiplayer", "Ready Player "..config.settings.multiplayer_nu
 					--ai="player_party_member",
 					--title="Secondary main character",
 					title="Main character", --currently using this for ai switching
-					main=false, --inferior to player1?
+					main=true, --inferior to player1? needed for item pickup? Has other side effedts?
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 					--no_party_ai=true,
 				})
