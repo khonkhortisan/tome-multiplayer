@@ -25,7 +25,7 @@ Game rebalance (optional):
 		duplicates quest rewards
 	disallows dropping items?
 transmog popup for both people
-bring both back to life after eidolon
+bring both back to life after eidolon - go there immediately on any player death?
 don't interrupt autoexplore/run (let it stack)
 fix player1 living player2 undead error]]
 tags = {'multiplayer'}

@@ -195,7 +195,7 @@ Dialog:yesnoPopup("Multiplayer", "Ready Player "..config.settings.multiplayer_nu
 				--local player1 = self.player
 				local x, y = util.findFreeGrid(self.player.x, self.player.y, 20, true, {[engine.Map.ACTOR]=true})
 				
-				local player2 = Player.new{name=self.player_name.."2", game_ender=true}
+				local player2 = Player.new{name=self.player_name..config.settings.multiplayer_num, game_ender=true}
 				
 				--actually spawn player2 (Norgan-style!) - required for setPlayer
 				self.zone:addEntity(self.level, player2, "actor", x, y)
@@ -307,6 +307,28 @@ end
 --perplayer character creation dialog
 	self:registerDialog(birth)
 end
+
+local base_setPlayerName = _M.setPlayerName
+--- Sets the player name
+function _M:setPlayerName(name)
+	name = name:removeColorCodes():gsub("#", " "):sub(1, 25)
+	
+	--Keep these as player1's name
+	if config.settings.multiplayer_num == 1 then
+	self.save_name = name
+	self.player_name = name
+	end
+	
+	--~~there can be only one~~
+	--if self.party and self.party:findMember{main=true} then
+	--	self.party:findMember{main=true}.name = name
+	--end
+	--there can be more than one
+	if game.player then --remove superfluous error. This really shouldn't be called that early.
+	game.player.name = name
+	end
+end
+
 
 --]]
 return _M
