@@ -7,7 +7,9 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	local retval = base_init(self, title, actor, order, at_end, quickbirth, w, h)
 	
 	--attempt changing field after-the-fact
-	self.c_name.text=game.player_name..config.settings.multiplayer_num
+	if config.settings.multiplayer_num > 1 then
+		self.c_name:setText(game.player_name..config.settings.multiplayer_num)
+	end
 	
 	self.c_cancel.fct=function()
 		if config.settings.multiplayer_num > 1 then
