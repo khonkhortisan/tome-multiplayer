@@ -191,7 +191,7 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 				--self.player.ai = "player_party_member"
 				--self.player.no_party_ai = true
 				--local player1 = self.player
-				local player = Player.new{name=self.player_name, game_ender=true}
+				local player = Player.new{name=self.player_name.."2", game_ender=true}
 				self.party:addMember(player, {
 					control="full",
 					type="player",
