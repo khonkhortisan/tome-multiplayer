@@ -180,6 +180,7 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 --perplayer
 
 				--[[
+				--local x, y = util.findFreeGrid(game.player.x, game.player.y, 20, true, {[engine.Map.ACTOR]=true})
 				local norgan = self.zone:makeEntityByName(self.level, "actor", "NORGAN")
 				self.zone:addEntity(self.level, norgan, "actor", x, y)
 
@@ -191,8 +192,13 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 				--self.player.ai = "player_party_member"
 				--self.player.no_party_ai = true
 				--local player1 = self.player
+				local x, y = util.findFreeGrid(self.player.x, self.player.y, 20, true, {[engine.Map.ACTOR]=true})
 				
 				local player2 = Player.new{name=self.player_name.."2", game_ender=true}
+				
+				--actually spawn player2 (Norgan-style!) - required for setPlayer
+				self.zone:addEntity(self.level, player2, "actor", x, y)
+				
 				self.party:addMember(player2, {
 					control="full",
 					type="player",
@@ -203,8 +209,7 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 					--no_party_ai=true,
 				})
 				
-				--actually spawn player2 (Norgan-style!) - required for setPlayer
-				self.zone:addEntity(self.level, player2, "actor", self.player.x, self.player.y)
+				
 				
 				--[[
 				--need to spawn player2 by dropping on/near player1 like a summon so player switching can succeed
