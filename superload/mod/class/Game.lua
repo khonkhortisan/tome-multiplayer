@@ -204,7 +204,7 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 					type="player",
 					--ai="player_party_member",
 					title="Secondary main character",
-					main=true,
+					main=false, --inferior to player1?
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 					--no_party_ai=true,
 				})
