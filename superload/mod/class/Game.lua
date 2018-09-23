@@ -191,8 +191,8 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 				--self.player.ai = "player_party_member"
 				--self.player.no_party_ai = true
 				--local player1 = self.player
-				local player = Player.new{name=self.player_name.."2", game_ender=true}
-				self.party:addMember(player, {
+				local player2 = Player.new{name=self.player_name.."2", game_ender=true}
+				self.party:addMember(player2, {
 					control="full",
 					type="player",
 					--ai="player_party_member",
@@ -201,9 +201,9 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 					--no_party_ai=true,
 				})
-				self.party:setPlayer(player)
+				self.party:setPlayer(player2)
 				
-				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
+				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", player2, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 				
 				--perplayer character creation dialog
 				self:registerDialog(birth)
