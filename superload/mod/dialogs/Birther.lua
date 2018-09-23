@@ -28,8 +28,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 			--data/talents/chronomancy/anomaly.lua anomaly evil twin
 			--data/talents/chronomancy/chronomancer makeparadoxclone
 			if game.party and game.party:findMember{main=true} then
-			--game.party:findMember{main=true}:forceUseTalent(self.T_ANOMALY_EVIL_TWIN, {ignore_energy=true})
-			--game.party:findMember{main=true}.T_ANOMALY_EVIL_TWIN.action(game.party:findMember{main=true},game.party:findMember{main=true})
+			game.player:forceUseTalent(game.player.T_ANOMALY_EVIL_TWIN, {ignore_energy=true})
 			end
 		else
 			self:atEnd("quit")
