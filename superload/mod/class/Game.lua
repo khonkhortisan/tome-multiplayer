@@ -191,6 +191,7 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 				--self.player.ai = "player_party_member"
 				--self.player.no_party_ai = true
 				--local player1 = self.player
+				
 				local player2 = Player.new{name=self.player_name.."2", game_ender=true}
 				self.party:addMember(player2, {
 					control="full",
@@ -201,9 +202,42 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 					--no_party_ai=true,
 				})
-				self.party:setPlayer(player2)
 				
-				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", player2, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
+				--actually spawn player2 (Norgan-style!) - required for setPlayer
+				self.zone:addEntity(self.level, player2, "actor", self.player.x, self.player.y)
+				
+				--[[
+				--need to spawn player2 by dropping on/near player1 like a summon so player switching can succeed
+				player2.wild_x, player2.wild_y = game.player.default_wilderness[1], game.player.default_wilderness[2]
+				if type(player2.wild_x) == "string" and type(player2.wild_y) == "string" then
+					local spot = self.level:pickSpot{type=player2.wild_x, subtype=player2.wild_y} or {x=1,y=1}
+					player2.wild_x, player2.wild_y = spot.x, spot.y
+				end--]]
+				
+				self.party:setPlayer(player2) --fails with message, does nothing
+				
+				--yes, control dead nonexistent character.
+				--self.party:setPlayer(player2, true) --just blinks screen
+				
+				
+				--Force switch to player 2, OR
+				--clone player 1 as second entity, use birther on first entity...?
+				--[[
+				local player1clone = self.player
+				local player1name = self.player.name
+				self.player.name = self.player.name.."clone"
+				self.party:addMember(player1clone, {
+					control="full",
+					type="player",
+					--ai="player_party_member",
+					title="Secondary main character",
+					main=true,
+					orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
+					--no_party_ai=true,
+				})--]]
+				--well, that didn't work. Just flashed screen.
+				
+				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 				
 				--perplayer character creation dialog
 				self:registerDialog(birth)
