@@ -54,7 +54,7 @@ if game.party.members[self].title == "Main character" then
 	--self.title="Main character"
 	--self.main=true
 	--self.ai = ""
-	game.logPlayer(game.player, "Turn %s: Current player is %s, AI action taken by %s:", game.turn, game.player.name, self.name)
+	--debug--game.logPlayer(game.player, "Turn %s: Current player is %s, AI action taken by %s:", game.turn, game.player.name, self.name)
 	game.party:setPlayer(self) --forcing handoff takes a turn?
 	--currentplayer.ai = "party_member"
 	--game.turn = game.turn - 9 --...so turns can go backward and (turn numbers) don't matter.

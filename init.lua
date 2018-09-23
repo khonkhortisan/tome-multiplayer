@@ -11,17 +11,20 @@ author = {'Khonkhortisan'}
 homepage = 'https://github.com/khonkhortisan'
 description = [[Adds a second character
 New game menu allowing different classes/races (after starting level)
+~~placeholder~~ AI that on its turn gives control to the player and takes over the first character
+
 Todo:
-placeholder AI that on its turn gives control to the player and takes over the first character
 Game rebalance (optional):
 	duplicates starting items (transmog, rod of recall)
 	Duplicates item pickups
-	duplicates quest rewards
+		let player2 pick up items?
 	shared experience points
 	quest management only on player1?
+		duplicates quest rewards
 	disallows dropping items?
 transmog popup for both people
-bring both back to life after eidolon]]
+bring both back to life after eidolon
+don't interrupt autoexplore/run (let it stack)]]
 tags = {'multiplayer'}
 
 overload = true
