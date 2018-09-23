@@ -16,17 +16,20 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 			game:unregisterDialog(self)
 			
 			--self.player.explode
-			game.player.exp_worth = 0
-			game.player.on_die = nil
-			game.player.die = nil
-			game.player:die()
-			game.party:removeMember(game.player, true)
+			local extraplayer = game.player
+			game.party:setPlayer(game.party:findMember{main=true})
+			extraplayer.exp_worth = 0
+			extraplayer.on_die = nil
+			extraplayer.die = nil
+			extraplayer:die()
+			game.party:removeMember(extraplayer, true)
 			
 			--or turn into temporal clone
 			--data/talents/chronomancy/anomaly.lua anomaly evil twin
 			--data/talents/chronomancy/chronomancer makeparadoxclone
 			if game.party and game.party:findMember{main=true} then
 			--game.party:findMember{main=true}:forceUseTalent(self.T_ANOMALY_EVIL_TWIN, {ignore_energy=true})
+			--game.party:findMember{main=true}.T_ANOMALY_EVIL_TWIN.action(game.party:findMember{main=true},game.party:findMember{main=true})
 			end
 		else
 			self:atEnd("quit")
