@@ -219,6 +219,9 @@ Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier
 					player2.wild_x, player2.wild_y = spot.x, spot.y
 				end--]]
 				
+				--This can't be right. V2
+				player2.energy.value = self.energy_to_act
+				
 				self.party:setPlayer(player2) --fails with message, does nothing
 				
 				--yes, control dead nonexistent character.

@@ -36,6 +36,7 @@ return _M
 -- darkgod@te4.org
 
 newAI("party_member", function(self)
+--if self.is_a_multiplayer_player then
 if true then
 	--game.player.ai = "party_member"
 	--currentplayer = game:getPlayer(true)
