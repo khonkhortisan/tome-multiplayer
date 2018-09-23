@@ -36,7 +36,7 @@ return _M
 -- darkgod@te4.org
 
 newAI("party_member", function(self)
-if false then
+if true then
 	--game.player.ai = "party_member"
 	--currentplayer = game:getPlayer(true)
 	--currentplayer.control="full"
@@ -51,6 +51,7 @@ if false then
 	--self.title="Main character"
 	--self.main=true
 	--self.ai = ""
+	game.logPlayer(game.player, "Current player is %s, AI action taken by %s:", game.player.name, self.name)
 	game.party:setPlayer(self) --forcing handoff takes a turn?
 	--currentplayer.ai = "party_member"
 	return
