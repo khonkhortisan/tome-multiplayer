@@ -169,6 +169,8 @@ end
 					----------------------------------------------------------------------
 --firstplayer
 if config.settings.multiplayer_num == 1 then
+Dialog:yesnoPopup("Really add another player?", "You pressed Next Player earlier.", function(ret)
+				if not ret then
 --if not player.title == "Multiplayer" then
 --if true then
 				--start over for player 2
@@ -206,6 +208,8 @@ if config.settings.multiplayer_num == 1 then
 				--perplayer character creation dialog
 				self:registerDialog(birth)
 				--]]
+end
+			end, "No", "Yes") --really add player dialog
 end
 				----------------------------------------------------------------------
 
