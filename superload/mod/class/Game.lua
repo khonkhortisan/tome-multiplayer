@@ -249,7 +249,7 @@ Dialog:yesnoPopup("Multiplayer", "Ready Player "..config.settings.multiplayer_nu
 				
 				birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 				
-				--perplayer character creation dialog
+				--perplayer character creation dialog (player 2+)
 				self:registerDialog(birth)
 				--]]
 end
@@ -304,7 +304,7 @@ end
 	birth = Birther.new("Character Creation ("..table.concat(table.extract_field(unlocks, "desc", ipairs), ", ").." unlocked options)", self.player, {"base", "world", "difficulty", "permadeath", "race", "subrace", "sex", "class", "subclass" }, birtherfunction, quickbirth, 800, 600)
 	--end birth function
 	
---perplayer character creation dialog
+--perplayer character creation dialog (player1)
 	self:registerDialog(birth)
 end
 
