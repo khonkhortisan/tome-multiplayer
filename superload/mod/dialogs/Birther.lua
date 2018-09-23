@@ -14,7 +14,8 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	self.c_cancel.fct=function()
 		if config.settings.multiplayer_num > 1 then
 			--self.player.explode
-			--game:unregisterDialog(retval)
+			--or turn into temporal clone?
+			game:unregisterDialog(self)
 		else
 			self:atEnd("quit")
 		end
