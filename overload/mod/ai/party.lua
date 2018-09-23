@@ -54,6 +54,12 @@ if true then
 	game.logPlayer(game.player, "Turn %s: Current player is %s, AI action taken by %s:", game.turn, game.player.name, self.name)
 	game.party:setPlayer(self) --forcing handoff takes a turn?
 	--currentplayer.ai = "party_member"
+	--game.turn = game.turn - 9 --...so turns can go backward and (turn numbers) don't matter.
+	
+	--This can't be right.
+	self.energy.value = self.energy.value + game.energy_to_act
+	
+	--what does the return value mean?
 	return
 else
 	
