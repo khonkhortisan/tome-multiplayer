@@ -29,6 +29,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 			--data/talents/chronomancy/anomaly.lua anomaly evil twin
 			--data/talents/chronomancy/chronomancer makeparadoxclone
 			if game.party and game.party:findMember{main=true} then
+			game.logPlayer(game.player, "#MOCCASIN#Failing to add a player has upset the time stream!")
 			game.player:forceUseTalent(game.player.T_ANOMALY_EVIL_TWIN, {ignore_energy=true})
 			end
 		else
