@@ -13,6 +13,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	
 	self.c_cancel.fct=function()
 		if config.settings.multiplayer_num > 1 then
+			config.settings.multiplayer_num = config.settings.multiplayer_num - 1
 			game:unregisterDialog(self)
 			
 			--self.player.explode

@@ -154,8 +154,10 @@ end
 					self.player:onBirth(birth)
 					-- For quickbirth
 					savefile_pipe:push(self.player.name, "entity", self.party, "engine.CharacterVaultSave")
---perplayer?
+--perplayer? Nope, throws error.
+if config.settings.multiplayer_num <= 1 then
 					self.player:grantQuest(self.player.starting_quest)
+end
 --lastplayer?
 					self.creating_player = false
 --perplayer
