@@ -55,7 +55,29 @@ if game.party.members[self].title == "Main character" then
 	--self.main=true
 	--self.ai = ""
 	--debug--game.logPlayer(game.player, "Turn %s: Current player is %s, AI action taken by %s:", game.turn, game.player.name, self.name)
+	
+	--attempt to continue autoexplore/run after handoff+handback
+	--mod/class/game.lua REST RUNAUTO restInit( 
+	--engine/interface/PlayerRun.lua PlayerRest.lua 	--mod/class/Player.lua onRestStart onRestStop
+	
+	--game.player._runStop = game.player.runStop
+	--game.player._restStop = game.player.restStop
+	
+	--save player1's resting state
+	game.player.continueresting=game.player.resting
+	--game.player.wasrunning=game.player.running
+	
 	game.party:setPlayer(self) --forcing handoff takes a turn?
+	
+	--restore player2's resting state
+	if game.player.continueresting then
+		game.player.continueresting = false
+		--game.player.resting = true
+		game.player:restInit()
+	end
+	
+	--game.player.runStop = game.player._runStop
+	--game.player.restStop = game.player._restStop
 	--currentplayer.ai = "party_member"
 	--game.turn = game.turn - 9 --...so turns can go backward and (turn numbers) don't matter.
 	
