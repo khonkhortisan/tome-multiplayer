@@ -78,10 +78,15 @@ if game.party.members[newp].title == "Main character" then
 	--local orb = game.zone:getEntityByName(oldp.level, "object", "ORB_SCRYING")
 	
 	-- [[
-	local chest, chest_item = oldp:findInInventory(oldp:getInven("INVEN"), "Transmogrification Chest")
-	local orb, orb_item = oldp:findInInventory(oldp:getInven("INVEN"), "Scrying Orb")
-	newp:addObject(newp:getInven("INVEN"), chest)
-	newp:addObject(newp:getInven("INVEN"), orb)
+	if not newp:findInInventory(newp:getInven("INVEN"), "Transmogrification Chest") then
+		local chest, chest_item = oldp:findInInventory(oldp:getInven("INVEN"), "Transmogrification Chest")
+		newp:addObject(newp:getInven("INVEN"), chest)
+	end
+	if not newp:findInInventory(newp:getInven("INVEN"), "Scrying Orb") then
+		local orb, orb_item = oldp:findInInventory(oldp:getInven("INVEN"), "Scrying Orb")
+		newp:addObject(newp:getInven("INVEN"), orb)
+	end
+	--rod of recall takes multiple turns, can't just automatically switch it, right?
 	--]]
 	
 	
