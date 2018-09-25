@@ -64,16 +64,24 @@ if game.party.members[self].title == "Main character" then
 	--game.player._restStop = game.player.restStop
 	
 	--save player1's resting state
-	game.player.continueresting=game.player.resting
-	--game.player.wasrunning=game.player.running
+	game.player.resting_continue=game.player.resting
+	game.player.running_continue=game.player.running
 	
 	game.party:setPlayer(self) --forcing handoff takes a turn?
 	
 	--restore player2's resting state
-	if game.player.continueresting then
-		game.player.continueresting = false
-		--game.player.resting = true
-		game.player:restInit()
+	if game.player.resting_continue then
+		game.player.resting =	game.player.resting_continue
+			game.player.resting_continue = false
+		--game.player:restInit()
+		game.player:restStep()
+	end
+	if game.player.running_continue then
+		--local dir = game.player.running_continue.dir
+		game.player.running =	game.player.running_continue
+			game.player.running_continue = false
+		--game.player.runInit(dir)
+		game.player:runStep()
 	end
 	
 	--game.player.runStop = game.player._runStop
