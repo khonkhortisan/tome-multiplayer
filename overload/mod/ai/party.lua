@@ -77,7 +77,7 @@ if game.party.members[newp].title == "Main character" then
 	--local chest = game.zone:getEntityByName(oldp.level, "object", "TRANSMO_CHEST")
 	--local orb = game.zone:getEntityByName(oldp.level, "object", "ORB_SCRYING")
 	
-	--[[
+	-- [[
 	local chest, chest_item = oldp:findInInventory(oldp:getInven("INVEN"), "Transmogrification Chest")
 	local orb, orb_item = oldp:findInInventory(oldp:getInven("INVEN"), "Scrying Orb")
 	newp:addObject(newp:getInven("INVEN"), chest)
