@@ -139,7 +139,7 @@ end
 --once
 if config.settings.multiplayer_num <= 1 then
 			Map:setViewerFaction(self.player.faction)
-else
+else --doesn't need to be inside an else but doesn't have an effect on player1. I put faction stuff together.
 --play on same team to avoid autotargetting/minion attacks
 			self.player.faction = game.party:findMember{main=true}.faction
 end
