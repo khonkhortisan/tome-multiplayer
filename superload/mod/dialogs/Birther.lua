@@ -9,6 +9,8 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	--attempt changing field after-the-fact
 	if config.settings.multiplayer_num > 1 then
 		self.c_name:setText(game.player_name..config.settings.multiplayer_num)
+	else
+		self.c_name:setText("multiplayer") --for testing quickly and showing that it loaded
 	end
 	
 	self.c_cancel.fct=function()
