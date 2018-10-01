@@ -315,24 +315,26 @@ function _M:newGame()
 	self:registerDialog(birth)
 end
 
+--AFFECTS SAVE/LOAD/BIRTH/NEWGAME!
 local base_setPlayerName = _M.setPlayerName
 --- Sets the player name
 function _M:setPlayerName(name)
 	name = name:removeColorCodes():gsub("#", " "):sub(1, 25)
 	
 	--Keep these as player1's name
-	if config.settings.multiplayer_num == 1 then
+	if (not config.settings.multiplayer_num) or config.settings.multiplayer_num <= 1 then
 	self.save_name = name
 	self.player_name = name
 	end
 	
-	--~~there can be only one~~
-	--if self.party and self.party:findMember{main=true} then
-	--	self.party:findMember{main=true}.name = name
-	--end
 	--there can be more than one
 	if game.player then --remove superfluous error. This really shouldn't be called that early.
-	game.player.name = name
+		game.player.name = name
+		else
+		--~~there can be only one~~
+		if self.party and self.party:findMember{main=true} then
+			self.party:findMember{main=true}.name = name
+		end
 	end
 end
 
