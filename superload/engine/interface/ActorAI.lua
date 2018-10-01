@@ -19,11 +19,11 @@ function _M:newAI(name, fct)
 				--create starting items. Move this to Game.lua.
 				if not newp:findInInventory(newp:getInven("INVEN"), "Transmogrification Chest") then
 					local chest, chest_item = oldp:findInInventory(oldp:getInven("INVEN"), "Transmogrification Chest")
-					newp:addObject(newp:getInven("INVEN"), chest)
+					if chest then newp:addObject(newp:getInven("INVEN"), chest) end
 				end
 				if not newp:findInInventory(newp:getInven("INVEN"), "Scrying Orb") then
 					local orb, orb_item = oldp:findInInventory(oldp:getInven("INVEN"), "Scrying Orb")
-					newp:addObject(newp:getInven("INVEN"), orb)
+					if orb then newp:addObject(newp:getInven("INVEN"), orb) end
 				end
 				--rod of recall takes multiple turns, can't just automatically switch it, right?
 				--]]
