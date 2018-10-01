@@ -13,6 +13,7 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 		self.c_name:setText("multiplayer") --for testing quickly and showing that it loaded
 	end
 	
+	--fail gracefully
 	self.c_cancel.fct=function()
 		if config.settings.multiplayer_num > 1 then
 			config.settings.multiplayer_num = config.settings.multiplayer_num - 1

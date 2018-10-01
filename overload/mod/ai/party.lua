@@ -59,6 +59,10 @@ newAI("party_member", function(self)
 					if orb then newp:addObject(newp:getInven("INVEN"), orb) end
 				end
 				--rod of recall takes multiple turns, can't just automatically switch it, right?
+				if not newp:findInInventory(newp:getInven("INVEN"), "Rod of Recall") then
+					local rod, rod_item = oldp:findInInventory(oldp:getInven("INVEN"), "Rod of Recall")
+					if orb then newp:addObject(newp:getInven("INVEN"), rod) end
+				end
 				--]]
 
 				--save player1's resting state
