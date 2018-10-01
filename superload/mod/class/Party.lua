@@ -2,6 +2,56 @@ local Map = require "engine.Map"
 
 local _M = loadPrevious(...)
 
+local base_goToEidolon = _M.goToEidolon
+function _M:goToEidolon(actor)
+	if not actor then actor = self:findMember{main=true} end
+
+	local oldzone = game.zone
+	local oldlevel = game.level
+	local zone = mod.class.Zone.new("eidolon-plane")
+	local level = zone:getLevel(game, 1, 0)
+
+	level.data.eidolon_exit_x = actor.x
+	level.data.eidolon_exit_y = actor.y
+
+	local acts = {}
+	for act, _ in pairs(game.party.members) do
+		--Players are people too!
+--		if not act.dead then
+		if (not act.dead) or game.party.members[act].title == "Main character" then
+			acts[#acts+1] = act
+			if oldlevel:hasEntity(act) then oldlevel:removeEntity(act) end
+		end
+	end
+
+	level.source_zone = oldzone
+	level.source_level = oldlevel
+	game.zone = zone
+	game.level = level
+	game.zone_name_s = nil
+
+	for _, act in ipairs(acts) do
+		local x, y = util.findFreeGrid(23, 25, 20, true, {[Map.ACTOR]=true})
+		if x then
+			level:addEntity(act)
+			act:move(x, y, true)
+			act.changed = true
+			game.level.map:particleEmitter(x, y, 1, "teleport")
+		end
+	end
+
+	for uid, act in pairs(game.level.entities) do
+		if act.setEffect then
+			if game.level.data.zero_gravity then act:setEffect(act.EFF_ZERO_GRAVITY, 1, {})
+			else act:removeEffect(act.EFF_ZERO_GRAVITY, nil, true) end
+		end
+	end
+
+	return zone
+end
+
+
+--[[
 local base_setPlayer = _M.setPlayer
 function _M:setPlayer(actor, bypass)
 	if type(actor) == "number" then actor = self.m_list[actor] end
@@ -75,5 +125,5 @@ function _M:setPlayer(actor, bypass)
 
 	return true
 end
-
+--]]
 return _M

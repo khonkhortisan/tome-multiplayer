@@ -41,4 +41,5 @@ function _M:init(title, actor, order, at_end, quickbirth, w, h)
 	
 	return retval
 end
+
 return _M

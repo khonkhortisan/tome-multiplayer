@@ -36,9 +36,20 @@ function _M:newAI(name, fct)
 				--game.player→oldp
 				game.party:setPlayer(newp) --game.party means enemies don't also form parties?
 				--game.player→newp
-
+				
+				--This can't be right.
+				--self.energy.value = self.energy.value + game.energy_to_act
+				--oldp.energy.value, newp.energy.value = energy_freeze1, energy_freeze2
+				--from mod/class/NPC.lua
+				-- If AI did nothing, use energy anyway
+					--if not self.energy.used then self:useEnergy() end
+					--if old_energy == self.energy.value then break end -- Prevent infinite loops
+				--self.energy.used = true --STOP USING UP TURNS ON PLAYER SWITCH
 				--don't use a turn just taking control
-				newp.energy.used = true
+				--newp.energy.used = true
+				--don't freeze all enemies, though.
+				--newp.energy.value = newp.energy.value + game.energy_to_act
+				self.energy.used = true
 				
 				--restore player2's resting state
 				if newp.resting_continue then
