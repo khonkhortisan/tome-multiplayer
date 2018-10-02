@@ -226,14 +226,16 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 					--firstplayer
 					--if config.settings.multiplayer_num == 1 then
 					if not loaded then --needed to not lock loading saves
-						local player_list = ""
+						local player_list = "Players: "
 						local player_num = 1
 						for act, _ in pairs(game.party.members) do
 							if game.party.members[act].main then
-								player_list = player_list.."Player "..player_num..": #LIGHT_GREEN#"..act.name.."#LAST# the "..act.descriptor.race.." "..act.descriptor.subclass.."\n"
+								if player_num > 1 then player_list = player_list..", " end
+								player_list = player_list..act.descriptor.race.." "..act.descriptor.subclass.." #LIGHT_GREEN#"..act.name.."#LAST#"
 								player_num = player_num+1
 							end
 						end
+						player_list = player_list.."."
 						Dialog:yesnoPopup("Looking for gamers...", player_list, function(ret)
 							if not ret then
 								config.settings.multiplayer_num = config.settings.multiplayer_num + 1
@@ -318,7 +320,7 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 								self:registerDialog(birth)
 								--]]
 							end --if not ret then
-						end, "Play!", "Found Player "..config.settings.multiplayer_num+1) --really add player dialog
+						end, "Play!", "Add Player "..config.settings.multiplayer_num+1) --really add player dialog
 					end -- if not loaded then
 					----------------------------------------------------------------------
 
