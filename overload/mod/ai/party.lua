@@ -58,6 +58,7 @@ newAI("party_member", function(self)
 					local orb, orb_item = oldp:findInInventory(oldp:getInven("INVEN"), "Scrying Orb")
 					if orb then newp:addObject(newp:getInven("INVEN"), orb) end
 				end
+				--]]
 				--rod of recall takes multiple turns, can't just automatically switch it, right?
 				if not newp:findInInventory(newp:getInven("INVEN"), "Rod of Recall") then
 					local rod, rod_item = oldp:findInInventory(oldp:getInven("INVEN"), "Rod of Recall")

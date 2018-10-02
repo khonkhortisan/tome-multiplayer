@@ -48,7 +48,26 @@ function _M:newGame()
 				self.zone:addEntity(self.level, chest, "object")
 				self.player:addObject(self.player:getInven("INVEN"), chest)
 			end
+		--[[
+		--duplicate (reference to?) chest and orb for other players
+		if (not loaded) and config.settings.multiplayer_num > 1 then
+			--if not newp:findInInventory(newp:getInven("INVEN"), "Transmogrification Chest") then
+				--local chest, chest_item = oldp:findInInventory(oldp:getInven("INVEN"), "Transmogrification Chest")
+				--local chest = self.object_list["TRANSMO_CHEST"]
+				local chest = self.zone:getEntities(self.level, "object")["TRANSMO_CHEST"]
+				if chest then self.player:addObject(self.player:getInven("INVEN"), chest) end
+			--end
+			--when is scrying given?
+			--if not newp:findInInventory(newp:getInven("INVEN"), "Scrying Orb") then
+				--local orb, orb_item = oldp:findInInventory(oldp:getInven("INVEN"), "Scrying Orb")
+				--local orb = self.object_list["ORB_SCRYING"]
+				local orb = self.zone:getEntities(self.level, "object")["ORB_SCRYING"]
+				if orb then self.player:addObject(self.player:getInven("INVEN"), orb) end
+			--end
 		end
+		--]]
+		end
+		
 		--createworld, once", fine if duplicate?
 		if loaded or config.settings.multiplayer_num <= 1 then
 			for i = 1, 50 do
@@ -151,7 +170,40 @@ function _M:newGame()
 			print("[PLAYER BIRTH] resolved!")
 			local birthend = function()
 				--perplayer message
-				local d = require("engine.dialogs.ShowText").new("Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=self.player.name}, nil, nil, function()
+				local replacement_name = self.player.name
+				if (not loaded) and config.settings.multiplayer_num > 1 then
+					--engine/dialogs/ShowText.lua:generateList
+					local reGenerateList = function(file, replace)
+						local f, err = loadfile("/data/texts/"..file..".lua")
+						if not f and err then error(err) end
+						local env = setmetatable({}, {__index=_G})
+						setfenv(f, env)
+						local str = f()
+
+						str = str:gsub("@([^@]+)@", function(what)
+							if not replace[what] then return "" end
+							return util.getval(replace[what])
+						end)
+						return str
+						--self.text = str
+
+						--if env.title then
+						--	self.title = env.title
+						--end
+
+						--return true
+					end
+					replacement_name = [[#LAST##MOCCASIN#players#LAST#.
+
+#LIGHT_BLUE#This is the intro for everyone's starting quest:#LAST#
+]]..
+reGenerateList("intro-"..self.party:findMember{main=true}.starting_intro, {name=[[#LAST##MOCCASIN#]]..self.party:findMember{main=true}.name})
+..[[
+
+#LIGHT_BLUE#This is the intro for you(r race):#LAST#
+Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#]]
+				end
+				local d = require("engine.dialogs.ShowText").new("Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=replacement_name}, nil, nil, function()
 					--runs after welcome dialog is closed?
 					self.player:resetToFull()
 					self.player:registerCharacterPlayed()
