@@ -195,13 +195,11 @@ function _M:newGame()
 					end
 					replacement_name = [[#LAST##MOCCASIN#players#LAST#.
 
-#LIGHT_BLUE#This is the intro for everyone's starting quest:#LAST#
 ]]..
-reGenerateList("intro-"..self.party:findMember{main=true}.starting_intro, {name=[[#LAST##MOCCASIN#]]..self.party:findMember{main=true}.name})
+reGenerateList("intro-"..self.party:findMember{main=true}.starting_intro, {name=[[#LAST##MOCCASIN#]]..self.party:findMember{main=true}.name..[[#LAST#. #LIGHT_BLUE#This is the intro for everyone's starting quest#LAST#]]})
 ..[[
 
-#LIGHT_BLUE#This is the intro for you(r race):#LAST#
-Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#]]
+Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the intro for you(r race)#LAST#]]
 				end
 				local d = require("engine.dialogs.ShowText").new("Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=replacement_name}, nil, nil, function()
 					--runs after welcome dialog is closed?
