@@ -226,7 +226,15 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 					--firstplayer
 					--if config.settings.multiplayer_num == 1 then
 					if not loaded then --needed to not lock loading saves
-						Dialog:yesnoPopup("Multiplayer", "Ready Player "..config.settings.multiplayer_num+1, function(ret)
+						local player_list = ""
+						local player_num = 1
+						for act, _ in pairs(game.party.members) do
+							if game.party.members[act].main then
+								player_list = player_list.."Player "..player_num..": #LIGHT_GREEN#"..act.name.."#LAST# the "..act.descriptor.race.." "..act.descriptor.subclass.."\n"
+								player_num = player_num+1
+							end
+						end
+						Dialog:yesnoPopup("Looking for gamers...", player_list, function(ret)
 							if not ret then
 								config.settings.multiplayer_num = config.settings.multiplayer_num + 1
 								--if not player.title == "Multiplayer" then
@@ -263,7 +271,7 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 									--ai="player_party_member",
 									--title="Secondary main character",
 									title="Main character", --currently using this for ai switching
-									--main=true, --inferior to player1? needed for item pickup? Has other side effedts? Must be unset to load a save?
+									main=true, --inferior to player1? needed for item pickup? Has other side effedts? Must be unset to load a save?
 									orders = {target=true, anchor=true, behavior=true, leash=true, talents=true},
 									--no_party_ai=true,
 								})
@@ -310,7 +318,7 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 								self:registerDialog(birth)
 								--]]
 							end --if not ret then
-						end, "No", "Yes") --really add player dialog
+						end, "Play!", "Found Player "..config.settings.multiplayer_num+1) --really add player dialog
 					end -- if not loaded then
 					----------------------------------------------------------------------
 
