@@ -171,7 +171,7 @@ function _M:newGame()
 			local birthend = function()
 				--perplayer message
 				local replacement_name = self.player.name
-				if (not loaded) and config.settings.multiplayer_num > 1 then
+				if (not loaded) and config.settings.multiplayer_num > 1 and self.player.starting_intro ~= self.party:findMember{main=true}.starting_intro then
 					--engine/dialogs/ShowText.lua:generateList
 					local reGenerateList = function(file, replace)
 						local f, err = loadfile("/data/texts/"..file..".lua")
@@ -199,7 +199,7 @@ function _M:newGame()
 reGenerateList("intro-"..self.party:findMember{main=true}.starting_intro, {name=[[#LAST##MOCCASIN#]]..self.party:findMember{main=true}.name..[[#LAST#. #LIGHT_BLUE#This is the intro for everyone's starting quest#LAST#]]})
 ..[[
 
-Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the intro for you(r race)#LAST#]]
+Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the intro for your race or class#LAST#]]
 				end
 				local d = require("engine.dialogs.ShowText").new("Welcome to #LIGHT_BLUE#Tales of Maj'Eyal", "intro-"..self.player.starting_intro, {name=replacement_name}, nil, nil, function()
 					--runs after welcome dialog is closed?
