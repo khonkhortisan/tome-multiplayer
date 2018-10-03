@@ -228,17 +228,17 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 					if not loaded then --needed to not lock loading saves
 						local player_list = "Players: "
 						local player_num = 1
-						local same_race, same_subclass, are_same_race, are_same_subclass = "", "", true, true
+						local same_subrace, same_subclass, are_same_subrace, are_same_subclass = "", "", true, true
 						for act, _ in pairs(game.party.members) do
 							if game.party.members[act].main then
 								if player_num > 1 then player_list = player_list..", " end
-								player_list = player_list..act.descriptor.race.." "..act.descriptor.subclass.." #LIGHT_GREEN#"..act.name.."#LAST#"
+								player_list = player_list..act.descriptor.subrace.." "..act.descriptor.subclass.." #LIGHT_GREEN#"..act.name.."#LAST#"
 								player_num = player_num+1
-								if act.descriptor.race ~= same_race then
-									if same_race == "" then
-										same_race = act.descriptor.race
+								if act.descriptor.subrace ~= same_subrace then
+									if same_subrace == "" then
+										same_subrace = act.descriptor.subrace
 									else
-										are_same_race = false
+										are_same_subrace = false
 									end
 								end
 								if act.descriptor.subclass ~= same_subclass then
@@ -251,16 +251,16 @@ Welcome #LIGHT_GREEN#]]..self.player.name..[[#LAST#. #LIGHT_BLUE#This is the int
 							end
 						end
 						if config.settings.multiplayer_num > 1 then
-							if are_same_subclass or are_same_race then
+							if are_same_subclass or are_same_subrace then
 								player_list = player_list:gsub("Players: ", "players: ")
 							end
 							if are_same_subclass then
 								player_list = player_list:gsub(same_subclass.." ", "")
 								player_list = same_subclass.." "..player_list
 							end
-							if are_same_race then
-								player_list = player_list:gsub(same_race.." ", "")
-								player_list = same_race.." "..player_list
+							if are_same_subrace then
+								player_list = player_list:gsub(same_subrace.." ", "")
+								player_list = same_subrace.." "..player_list
 							end
 						end
 						player_list = player_list.."."
