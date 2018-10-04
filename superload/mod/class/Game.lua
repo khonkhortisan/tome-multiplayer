@@ -426,6 +426,81 @@ function _M:setPlayerName(name)
 	end
 end
 
+local base_changeLevel = _M.changeLevel
+function _M:changeLevel(lev, zone, params)
+	params = params or {}
+	if not self:changeLevelCheck(lev, zone, params) then return end
+	
+	game:transmo_changeLevel(0, lev, zone, params, true)
+	--only once
+	--game.player:transmoHelpPopup()
+end
+	-- Transmo!
+	--had used p = self:getPlayer(true), game.player, self.player
+	--local transmo_changeLevel = function(player_num)
+function _M:transmo_changeLevel(player_num, lev, zone, params, show_help)
+		player_num = (player_num or 0)+1
+		--self.party:findMember{main=true}
+		--game.party.members[player_num].main
+		--if not game.party.members[player_num] then
+
+		--local p = self:getPlayer(true)
+		local p = game.party.members[player_num]
+		if not p then
+			self:changeLevelReal(lev, zone, params)
+			return
+		end
+		
+		local oldzone, oldlevel = game.zone, game.level
+		--if not params.direct_switch and p:attr("has_transmo") and p:transmoGetNumberItems() > 0 and not game.player.no_inventory_access then
+		if not params.direct_switch and p:attr("has_transmo") and p:transmoGetNumberItems() > 0 and not p.no_inventory_access then
+			local d
+			--local titleupdator = self.player:getEncumberTitleUpdator(p:transmoGetName())
+			local titleupdator = p:getEncumberTitleUpdator(p:transmoGetName())
+			--d = self.player:showEquipInven(titleupdator(), nil, function(o, inven, item, button, event)
+			d = p:showEquipInven(titleupdator(), nil, function(o, inven, item, button, event)
+				if not o then return end
+				--local ud = require("mod.dialogs.UseItemDialog").new(event == "button", self.player, o, item, inven, function(_, _, _, stop)
+				local ud = require("mod.dialogs.UseItemDialog").new(event == "button", p, o, item, inven, function(_, _, _, stop)
+					d:generate()
+					d:generateList()
+					d:updateTitle(titleupdator())
+					if stop then self:unregisterDialog(d) end
+				end, true)
+				self:registerDialog(ud)
+			end)
+			d.unload = function()
+				local inven = p:getInven("INVEN")
+				for i = #inven, 1, -1 do
+					local o = inven[i]
+					if o.__transmo then
+						p:transmoInven(inven, i, o, p.default_transmo_source)
+					end
+				end
+				
+				game:transmo_changeLevel(player_num, lev, zone, params, false)
+				
+				--if game.zone == oldzone and game.level == oldlevel then
+				--	self:changeLevelReal(lev, zone, params)
+				--end
+			end
+			-- Select the chest tab
+			d.c_inven.dont_update_last_tabs = true
+			d.c_inven:switchTab{kind="transmo"}
+			
+			--only once, after (on top of) player1's inventory
+			if show_help then
+				p:transmoHelpPopup()
+			end
+		else
+			--self:changeLevelReal(lev, zone, params)
+			game:transmo_changeLevel(player_num, lev, zone, params, show_help)
+		end
+	end
+	--transmo_changeLevel(0)
+	--only once
+	--game.player:transmoHelpPopup()
+--end
 
 --]]
 return _M
