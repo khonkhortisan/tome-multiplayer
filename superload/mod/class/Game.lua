@@ -503,4 +503,27 @@ function _M:transmo_changeLevel(player_num, lev, zone, params, show_help)
 --end
 
 --]]
+
+local base_getPlayer = _M.getPlayer
+function _M:getPlayer(main)
+--function _M:getPlayer(main, first)
+	if main then
+--[[
+		--attempt to fix stuff like "if self == game:getPlayer(true) then" in engine/interface/PlayerHotkeys.lua
+		if game.party.members[self.player].main then
+		--if not first and game.party.members[self.player].main then
+			--return current player (whose turn it is)
+			return self.player
+		else
+--this breaks saving. Of course it does. And probably everything else.
+--]]
+			--return player 1
+			return self.party:findMember{main=true}
+--		end
+	else
+		--return currently-controlled (party member) actor (disguised as a player if not already a player)
+		return self.player
+	end
+end
+
 return _M
