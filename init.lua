@@ -1,3 +1,4 @@
+-- This file declares the mod. See Game.lua for the first file to take effect.
 -- Multiplayer Hack
 -- tome-multiplayer/init.lua
 

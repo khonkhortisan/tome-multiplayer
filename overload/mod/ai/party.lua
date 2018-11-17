@@ -1,3 +1,5 @@
+-- This file hands off control/items/autoexplore status to a player on their turn. See PlayerRun.lua, PlayerRest.lua
+
 local base_party_member_fct = function(self)
 --newAI("party_member", function(self)
 	local anchor = self.ai_state.tactic_leash_anchor

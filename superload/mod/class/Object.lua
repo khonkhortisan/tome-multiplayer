@@ -1,3 +1,5 @@
+-- This file fixes only player1 allowed to autopickup items
+
 local _M = loadPrevious(...)
 local base_on_prepickup = _M.on_prepickup
 

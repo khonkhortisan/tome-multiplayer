@@ -1,3 +1,5 @@
+-- This file is an easter egg for creating a character wrong. See Game.lua
+
 local _M = loadPrevious(...)
 
 --mess with base dialog

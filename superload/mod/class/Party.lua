@@ -1,3 +1,5 @@
+-- -- This file is part of an attempt to manage deaths sanely in multiplayer. See DeathDialog.lua
+
 local Map = require "engine.Map"
 
 local _M = loadPrevious(...)

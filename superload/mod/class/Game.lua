@@ -1,3 +1,5 @@
+-- This file manages adding extra players, saving, and has an attempt at fair transmogrification. See Birther.lua, party.lua
+
 local Party = require "mod.class.Party"
 local Player = require "mod.class.Player"
 local GameState = require "mod.class.GameState"

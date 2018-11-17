@@ -1,3 +1,5 @@
+-- This file helps with handing over autoexplore status on player control switch. See PlayerRest.lua, party.lua
+
 local _M = loadPrevious(...)
 
 --local base_restStop = _M.restStop

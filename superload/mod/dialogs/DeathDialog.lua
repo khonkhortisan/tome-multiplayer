@@ -1,3 +1,5 @@
+-- This file is part of an attempt to manage deaths sanely in multiplayer. See Party.lua
+
 local _M = loadPrevious(...)
 
 --- Send the party to the Eidolon Plane
