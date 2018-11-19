@@ -3,7 +3,7 @@
 local _M = loadPrevious(...)
 
 --local base_restStop = _M.restStop
-local base_runStop = _M.runStop
+  local base_runStop = _M.runStop
 --[[
 function _M:restStop(msg)
 	if msg ~= "Switching control" then
@@ -18,4 +18,5 @@ function _M:runStop(msg)
 	end
 	base_runStop(self, msg)
 end
+--]]
 return _M
