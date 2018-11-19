@@ -42,9 +42,9 @@ function _M:projectile(t, x, y, damtype, dam, particles)
 	typ.line_function:set_corner_block(block_corner)
 
 	local proj = require(self.projectile_class):makeProject(self, t.display, {x=x, y=y, start_x=typ.start_x, start_y=typ.start_y, damtype=damtype, tg=t, typ=typ, dam=dam, particles=particles, _allow_upvalues = true,})
-game.log("game.zone:addEntity"..' '..typ.start_x..' '..typ.start_y)
+game.log("ActorProject|game.zone:addEntity"..' '..typ.start_x..' '..typ.start_y)
 	game.zone:addEntity(game.level, proj, "projectile", typ.start_x, typ.start_y)
-game.log("self:check(on_projectile_fired"..' '..x..' '..y)
+game.log("ActorProject|self:check(on_projectile_fired"..' '..x..' '..y)
 	self:check("on_projectile_fired", proj, typ, x, y, damtype, dam, particles)
 	return proj
 end
@@ -63,7 +63,7 @@ end
 -- @return stop is this the last (blocking) tile?
 local base_projectDoMove = _M.projectDoMove
 function _M:projectDoMove(typ, tgtx, tgty, x, y, srcx, srcy)
-game.log("projectDoMove"..' '..tgtx..' '..tgty..' '..x..' '..y..' '..srcx..' '..srcy)
+game.log("ActorProject|projectDoMove"..' '..tgtx..' '..tgty..' '..x..' '..y..' '..srcx..' '..srcy)
 	local lx, ly, blocked_corner_x, blocked_corner_y = typ.line_function:step()
 	if blocked_corner_x and x == srcx and y == srcy then
 		return blocked_corner_x, blocked_corner_y, false, true
@@ -101,7 +101,7 @@ end
 --- projectDoAct
 local base_projectDoAct = _M.projectDoAct
 function _M:projectDoAct(typ, tg, damtype, dam, particles, px, py, tmp)
-game.log("projectDoAct:start"..' '..px..' '..py)
+game.log("ActorProject|projectDoAct:start"..' '..px..' '..py)
 	-- Now project on each grid, one type
 	-- Call the projected method of the target grid if possible
 	if not game.level.map:checkAllEntities(px, py, "projected", self, typ, px, py, damtype, dam, particles) then
@@ -109,12 +109,12 @@ game.log("projectDoAct:start"..' '..px..' '..py)
 		local act = game.level.map(px, py, engine.Map.ACTOR)
 --game.log("projectDoAct:act="..' '..act.name..' '..self.name)
 		if act and act == self and not ((type(typ.selffire) == "number" and rng.percent(typ.selffire)) or (type(typ.selffire) ~= "number" and typ.selffire)) then
-game.log("projectDoAct:act == self"..' '..act.name..' '..self.name)
+game.log("ActorProject|projectDoAct:act == self"..' '..act.name..' '..self.name)
 		elseif act and self.reactionToward and (self:reactionToward(act) >= 0) and not ((type(typ.friendlyfire) == "number" and rng.percent(typ.friendlyfire)) or (type(typ.friendlyfire) ~= "number" and typ.friendlyfire)) then
-game.log("projectDoAct:reactionToward"..' '..act.name..' '..self.name)
+game.log("ActorProject|projectDoAct:reactionToward"..' '..act.name..' '..self.name)
 		-- Otherwise hit
 		else
-game.log("projectDoAct:Otherwise hit"..' '..self.name)
+game.log("ActorProject|projectDoAct:Otherwise hit"..' '..self.name)
 			DamageType:projectingFor(self, {project_type=tg})
 			if type(damtype) == "function" then if damtype(px, py, tg, self, tmp) then return true end
 			else DamageType:get(damtype).projector(self, px, py, damtype, dam, tmp, nil, tg) end
