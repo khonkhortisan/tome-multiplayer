@@ -53,7 +53,7 @@ function _M:goToEidolon(actor)
 end
 
 
---[[
+-- [[
 local base_setPlayer = _M.setPlayer
 function _M:setPlayer(actor, bypass)
 	if type(actor) == "number" then actor = self.m_list[actor] end
@@ -112,7 +112,12 @@ function _M:setPlayer(actor, bypass)
 		actor.move_others = actor._move_others
 		oldp.changed = true
 		oldp.player = nil
+		--[[
+		--MOVING IN PLACE INTO YOUR OWN ARROW HANGING IN AIR WHEN TURN SWITCHES TO OTHER PLAYER BEFORE ARROW GETS A TURN TO MOVE
+		--Y U DO DAT
 		if game.level and oldp.x and oldp.y then oldp:move(oldp.x, oldp.y, true) end
+		--If this breaks ANYTHING, so help me…
+		--]]
 	end
 
 	if def.on_control then def.on_control(actor) end
