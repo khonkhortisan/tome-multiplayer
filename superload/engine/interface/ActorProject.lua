@@ -46,6 +46,7 @@ game.log("ActorProject|game.zone:addEntity"..' '..typ.start_x..' '..typ.start_y)
 	game.zone:addEntity(game.level, proj, "projectile", typ.start_x, typ.start_y)
 game.log("ActorProject|self:check(on_projectile_fired"..' '..x..' '..y)
 	self:check("on_projectile_fired", proj, typ, x, y, damtype, dam, particles)
+game.log("ActorProject|return proj".." x"..x.." y"..y.." start_x"..typ.start_x.." start_y"..typ.start_y)
 	return proj
 end
 

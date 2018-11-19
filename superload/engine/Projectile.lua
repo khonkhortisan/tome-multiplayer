@@ -56,3 +56,31 @@ game.log("Projectile|act:homing type")
 	end
 	return true
 end
+
+--- Something moved in the same spot as us, hit ?
+local base_on_move = _M.on_move
+function _M:on_move(x, y, target)
+--STOP HITTING YOURSELF
+--player shoots arrow, control is switched, they move in place for good measure, it's treated as a player moving onto a tile with an arrow in it, as if they just walked into the shot.
+game.log("Projectile|on_move"..' x'..x..' y'..y..' target'..target.name)
+	if self.dead then return false end
+game.log("Projectile|on_move: alive")
+	self.src.__project_source = self -- intermediate projector source
+	if self.project and self.project.def.typ.line then 
+game.log("Projectile|on_move: call projectDoAct")
+	self.src:projectDoAct(self.project.def.typ, self.project.def.tg, self.project.def.damtype, self.project.def.dam, self.project.def.particles, self.x, self.y, self.tmp_proj) end
+	if self.project and self.project.def.typ.stop_block then
+game.log("Projectile|on_move: call projectDoStop")
+		self.src:projectDoStop(self.project.def.typ, self.project.def.tg, self.project.def.damtype, self.project.def.dam, self.project.def.particles, self.x, self.y, self.tmp_proj, self.x, self.y, self)
+	elseif self.homing then
+game.log("Projectile|on_move: homing type, meh.")
+		if (self.x == self.homing.target.x and self.y == self.homing.target.y) then
+			game.level:removeEntity(self, true)
+			self.dead = true
+			self.homing.on_hit(self, self.src, self.homing.target)
+		else
+			self.homing.on_move(self, self.src)
+		end
+	end
+	self.src.__project_source = nil
+end
